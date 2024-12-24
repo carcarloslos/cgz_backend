@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ESP Control</title>
+    <script>
+        // JavaScript function to change the status dynamically
+        let statusValue = "False";  // Initialize status as "False"
+        
+        function toggleStatus() {
+            // Toggle between "True" and "False"
+            statusValue = (statusValue === "True") ? "False" : "True";
+            document.getElementById("status").innerText = statusValue;
+        }
+
+        // Periodic update (for example, every 5 seconds)
+        setInterval(function() {
+            statusValue = (statusValue === "True") ? "False" : "True";
+            document.getElementById("status").innerText = statusValue;
+        }, 5000);
+    </script>
+</head>
+<body>
+    <h1>ESP Remote Control</h1>
+    <button onclick="toggleStatus()">Toggle Status</button>
+    <p>Status: <span id="status">False</span></p> <!-- Dynamic Status -->
+</body>
+</html>
