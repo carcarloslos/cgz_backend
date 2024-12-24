@@ -1,27 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>ESP Control</title>
-    <script>
-        // JavaScript function to change the status dynamically
-        let statusValue = "False";  // Initialize status as "False"
-        
-        function toggleStatus() {
-            // Toggle between "True" and "False"
-            statusValue = (statusValue === "True") ? "False" : "True";
-            document.getElementById("status").innerText = statusValue;
-        }
-
-        // Periodic update (for example, every 5 seconds)
-        setInterval(function() {
-            statusValue = (statusValue === "True") ? "False" : "True";
-            document.getElementById("status").innerText = statusValue;
-        }, 5000);
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Counter App</title>
 </head>
 <body>
-    <h1>ESP Remote Control</h1>
-    <button onclick="toggleStatus()">Toggle Status</button>
-    <p>Status: <span id="status">False</span></p> <!-- Dynamic Status -->
+  <h1>Counter: <span id="counter">0</span></h1>
+  <button id="increment-btn">Increase</button>
+  <script>
+    const counterEl = document.getElementById('counter');
+    const incrementBtn = document.getElementById('increment-btn');
+
+    // Fetch the current counter value
+    fetch('/counter')
+      .then(response => response.json())
+      .then(data => {
+        counterEl.textContent = data.counter;
+      });
+
+    // Increment the counter
+    incrementBtn.addEventListener('click', () => {
+      fetch('/increment', { method: 'POST' })
+        .then(response => response.json())
+        .then(data => {
+          counterEl.textContent = data.counter;
+        });
+    });
+  </script>
 </body>
 </html>
