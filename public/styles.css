@@ -1,6 +1,6 @@
 /* General Body Styling */
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: 'Comic Sans MS', sans-serif; /* Comic Sans font */
   background-color: #f7f7f7;
   color: #333;
   margin: 0;
@@ -8,10 +8,25 @@ body {
   text-align: center;
 }
 
+/* Rainbow Text Effect */
+.rainbow-text {
+  background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet);
+  -webkit-background-clip: text;
+  color: transparent;
+  font-weight: bold;
+}
+
 /* Main Container */
 h1, h2, h3 {
   color: #4a90e2;
   margin-bottom: 10px;
+  font-size: 32px; /* Adjust font size for better appearance */
+}
+
+h1, h2, h3 {
+  background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet);
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
 /* Counter and Button Styling */
@@ -54,6 +69,9 @@ button:active {
   padding: 10px;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet);
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
 #name-list li:nth-child(even) {
@@ -83,3 +101,4 @@ form button {
 form button:hover {
   background-color: #d3375f;
 }
+
