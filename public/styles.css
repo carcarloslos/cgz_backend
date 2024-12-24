@@ -1,5 +1,4 @@
 /* General Body Styling */
-/* General Body Styling */
 body {
   font-family: 'Comic Sans MS', sans-serif; /* Comic Sans font */
   background-color: #d3d3d3; /* Light grey background */
@@ -9,23 +8,11 @@ body {
   text-align: center;
 }
 
-
-/* Rainbow Text Effect */
-.rainbow-text {
-  background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet);
-  -webkit-background-clip: text;
-  color: transparent;
-  font-weight: bold;
-}
-
 /* Main Container */
 h1, h2, h3 {
   color: #4a90e2;
   margin-bottom: 10px;
   font-size: 32px; /* Adjust font size for better appearance */
-}
-
-h1, h2, h3 {
   background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet);
   -webkit-background-clip: text;
   color: transparent;
@@ -61,7 +48,10 @@ button:active {
 /* Name List Styling */
 #name-list {
   list-style-type: none;
-  padding: 0;
+  padding: 20px;
+  background-color: #f0f0f0; /* Light grey background for the name list */
+  border-radius: 8px;
+  margin: 20px 0;
 }
 
 #name-list li {
@@ -103,4 +93,3 @@ form button {
 form button:hover {
   background-color: #d3375f;
 }
-
