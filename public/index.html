@@ -3,14 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Counter App</title>
+  <title>Counter and Name List</title>
 </head>
 <body>
   <h1>Counter: <span id="counter">0</span></h1>
   <button id="increment-btn">Increase</button>
+
+  <h2>Name List</h2>
+  <ul id="name-list">
+    <!-- List of names will appear here -->
+  </ul>
+
+  <h3>Add Your Name</h3>
+  <form id="name-form">
+    <input type="text" id="name-input" placeholder="Enter your name" required />
+    <button type="submit">Add Name</button>
+  </form>
+
   <script>
     const counterEl = document.getElementById('counter');
     const incrementBtn = document.getElementById('increment-btn');
+    const nameListEl = document.getElementById('name-list');
+    const nameForm = document.getElementById('name-form');
+    const nameInput = document.getElementById('name-input');
 
     // Fetch the current counter value
     fetch('/counter')
@@ -27,6 +42,46 @@
           counterEl.textContent = data.counter;
         });
     });
+
+    // Fetch and display the list of names
+    function fetchNames() {
+      fetch('/names')
+        .then(response => response.json())
+        .then(data => {
+          nameListEl.innerHTML = '';  // Clear the list
+          data.names.forEach(name => {
+            const li = document.createElement('li');
+            li.textContent = name;
+            nameListEl.appendChild(li);
+          });
+        });
+    }
+
+    // Add name to the list
+    nameForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = nameInput.value.trim();
+
+      if (name) {
+        fetch('/add-name', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name })
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.names) {
+            fetchNames();  // Reload the list of names
+            nameInput.value = '';  // Clear the input field
+          } else {
+            alert(data.message);
+          }
+        });
+      }
+    });
+
+    // Load the names when the page loads
+    fetchNames();
   </script>
 </body>
 </html>
