@@ -5,17 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Page 2</title>
   <link rel="stylesheet" href="styles.css">
-  <style>
-    /* Basic style for the object to move */
-    #movingObject {
-      width: 50px;
-      height: 50px;
-      background-color: red;
-      position: absolute; /* Allows positioning based on coordinates */
-      left: 100px;
-      top: 100px;
-    }
-  </style>
   <script>
     // Create an object to track the state of each key
     const keyState = {
@@ -23,6 +12,7 @@
       ArrowDown: false,
       ArrowLeft: false,
       ArrowRight: false,
+      Enter: false,
     };
 
     // Function to handle key presses
@@ -36,12 +26,12 @@
         keyState[key] = false;
       }
 
-      // Check for simultaneous key presses and update position of the object
+      // Check for simultaneous key presses and update counters
       if (keyState.ArrowUp) {
-        decrementCounter('counter1');
+        incrementCounter('counter1');
       }
       if (keyState.ArrowDown) {
-        incrementCounter('counter1');
+        decrementCounter('counter1');
       }
       if (keyState.ArrowLeft) {
         decrementCounter('counter2');
@@ -49,35 +39,37 @@
       if (keyState.ArrowRight) {
         incrementCounter('counter2');
       }
+      if (keyState.Enter) {
+        addName();
+      }
     }
 
-    // Function to increment a specified counter and update position
+    // Function to increment a specified counter
     function incrementCounter(counterId) {
       const counterElement = document.getElementById(counterId);
       let currentCounter = parseInt(counterElement.textContent.replace('Counter: ', ''), 10);
       currentCounter += 1;
       counterElement.textContent = `Counter: ${currentCounter}`;
-      updateObjectPosition();
     }
 
-    // Function to decrement a specified counter and update position
+    // Function to decrement a specified counter
     function decrementCounter(counterId) {
       const counterElement = document.getElementById(counterId);
       let currentCounter = parseInt(counterElement.textContent.replace('Counter: ', ''), 10);
       currentCounter -= 1;
       counterElement.textContent = `Counter: ${currentCounter}`;
-      updateObjectPosition();
     }
 
-    // Function to update the position of the moving object based on counters
-    function updateObjectPosition() {
-      const counter1 = parseInt(document.getElementById('counter1').textContent.replace('Counter: ', ''), 10);
-      const counter2 = parseInt(document.getElementById('counter2').textContent.replace('Counter: ', ''), 10);
-      const movingObject = document.getElementById('movingObject');
-
-      // Update object's position based on the counters
-      movingObject.style.left = 100 + counter2 * 10 + 'px';  // Move horizontally
-      movingObject.style.top = 100 + counter1 * 10 + 'px';   // Move vertically
+    // Function to add a name to the list
+    function addName() {
+      const nameInput = document.getElementById('nameInput').value;
+      if (nameInput) {
+        const nameList = document.getElementById('nameList');
+        const newNameElement = document.createElement('li');
+        newNameElement.textContent = nameInput;
+        nameList.appendChild(newNameElement);
+        document.getElementById('nameInput').value = ''; // Clear input field
+      }
     }
 
     // Event listener to detect keydown and keyup
@@ -86,13 +78,40 @@
   </script>
 </head>
 <body>
-  <!-- Moving object -->
-  <div id="movingObject"></div>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/page1.html">Page 1</a></li>
+        <li><a href="/page2.html">Page 2</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <h1>Welcome to Page 2</h1>
+    <p>This page could be a place for real-time data visualization or something similar.</p>
 
-  <!-- Display First Counter Value -->
-  <div id="counter1" style="display:none;">Counter: 0</div>
+    <!-- Display First Counter Value -->
+    <div id="counter1">Counter: 0</div>
     
-  <!-- Display Second Counter Value -->
-  <div id="counter2" style="display:none;">Counter: 0</div>
+    <!-- Display Second Counter Value -->
+    <div id="counter2">Counter: 0</div>
+
+    <!-- Instructions for interacting with the page -->
+    <p>Use the following keys:</p>
+    <ul>
+      <li><strong>Arrow Up</strong> - Increment First Counter</li>
+      <li><strong>Arrow Down</strong> - Decrement First Counter</li>
+      <li><strong>Arrow Left</strong> - Decrement Second Counter</li>
+      <li><strong>Arrow Right</strong> - Increment Second Counter</li>
+      <li><strong>Enter</strong> - Add Name (from the input field)</li>
+    </ul>
+
+    <!-- Input for adding names -->
+    <input type="text" id="nameInput" placeholder="Enter a name" />
+
+    <!-- Display added names -->
+    <ul id="nameList"></ul>
+  </main>
 </body>
 </html>
