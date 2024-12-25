@@ -6,25 +6,40 @@
   <title>Page 2</title>
   <link rel="stylesheet" href="styles.css">
   <script>
+    // Create an object to track the state of each key
+    const keyState = {
+      ArrowUp: false,
+      ArrowDown: false,
+      ArrowLeft: false,
+      ArrowRight: false,
+      Enter: false,
+    };
+
     // Function to handle key presses
     function handleKeyPress(event) {
       const key = event.key; // The key pressed
 
-      // Check for specific key events
-      if (key === 'ArrowUp') {
-        // Increment first counter when the "Up Arrow" key is pressed
+      // Update key state when key is pressed
+      if (event.type === 'keydown') {
+        keyState[key] = true;
+      } else if (event.type === 'keyup') {
+        keyState[key] = false;
+      }
+
+      // Check for simultaneous key presses and update counters
+      if (keyState.ArrowUp) {
         incrementCounter('counter1');
-      } else if (key === 'ArrowDown') {
-        // Decrement first counter when the "Down Arrow" key is pressed
+      }
+      if (keyState.ArrowDown) {
         decrementCounter('counter1');
-      } else if (key === 'ArrowLeft') {
-        // Decrement second counter when the "Left Arrow" key is pressed
+      }
+      if (keyState.ArrowLeft) {
         decrementCounter('counter2');
-      } else if (key === 'ArrowRight') {
-        // Increment second counter when the "Right Arrow" key is pressed
+      }
+      if (keyState.ArrowRight) {
         incrementCounter('counter2');
-      } else if (key === 'Enter') {
-        // Trigger add name action when the "Enter" key is pressed
+      }
+      if (keyState.Enter) {
         addName();
       }
     }
@@ -57,8 +72,9 @@
       }
     }
 
-    // Event listener to detect key presses
+    // Event listener to detect keydown and keyup
     document.addEventListener('keydown', handleKeyPress);
+    document.addEventListener('keyup', handleKeyPress);
   </script>
 </head>
 <body>
