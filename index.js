@@ -1,4 +1,5 @@
 const express = require('express');
+const WebSocket = require('ws');
 const app = express();
 let counter = 0;
 let namesList = [];  // List to store names
@@ -34,8 +35,40 @@ app.post('/add-name', (req, res) => {
   }
 });
 
-// Start the server
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+// Create HTTP server from Express app
+const server = app.listen(process.env.PORT || 3000, () => {
+  console.log(`Server is running on port ${server.address().port}`);
 });
+
+// Set up WebSocket server to handle WebSocket connections
+const wss = new WebSocket.Server({ server });
+
+// Handle incoming WebSocket connections
+wss.on('connection', (ws) => {
+  console.log('New WebSocket connection');
+
+  // Send a welcome message to the new client
+  ws.send(JSON.stringify({ message: 'Welcome to the WebSocket server!' }));
+
+  // Handle incoming messages from WebSocket clients
+  ws.on('message', (message) => {
+    console.log(`Received message: ${message}`);
+
+    // You can handle specific messages here. For example, increment counter:
+    if (message === 'increment') {
+      counter += 1;
+      // Notify all connected WebSocket clients about the updated counter value
+      wss.clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(JSON.stringify({ counter }));
+        }
+      });
+    }
+  });
+
+  // Handle WebSocket connection closure
+  ws.on('close', () => {
+    console.log('WebSocket connection closed');
+  });
+});
+
